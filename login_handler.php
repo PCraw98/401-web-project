@@ -1,11 +1,12 @@
 <?php
     session_start();
     include_once 'Dao.php';
-    if(isset($_POST['login'])){
+    if(isset($_POST["login"])){
         $username = filter_var($_POST["username"], FILTER_SANITIZE_STRING);
         $password = filter_var($_POST["password"], FILTER_SANITIZE_STRING);
         $dao = new Dao();
         $valid = $dao->loginUser($username,$password);
+        $_SESSION["valid"] = $valid;
         if ($valid) {
             $login = true;
         } else {
@@ -13,15 +14,16 @@
         }
 
         if ($login) {
-            $_SESSION['login_message'] = "Welcome" .$username;
-            $_SESSION['logged_in'] = true;
-            $_SESSION['curr_user'] = $username;
+            $_SESSION["login_message"] = "Welcome" .$username;
+            $_SESSION["logged_in"] = true;
+            $_SESSION["curr_user"] = $username;
             header("Location: index.php");
+            exit();
         } else {
-            $_SESSION['bad_login'] = "invalid username or password";
-            $_SESSION['logged_in'] = false;
+            $_SESSION["bad_login"] = "invalid username or password";
+            $_SESSION["logged_in"] = false;
             header("Location: login.php");
+            exit();
         }
-        exit();
     }
 ?>

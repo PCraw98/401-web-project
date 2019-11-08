@@ -30,6 +30,25 @@ class Dao {
 		$q->execute();
 	}
 
+	public function getPosts() {
+		$conn = $this->getConnection();
+		try {
+		return $conn->query("select post_author, post_bandname, post_genre, post_album  from posts order by post_id desc", PDO::FETCH_ASSOC);
+		} catch(Exception $e) {
+		  echo print_r($e,1);
+		  exit;
+		}
+	  }
+
+	public function newPost($username, $bandname, $genre, $album) {
+		//$this->logger->LogInfo("saving a comment [{$comment}]");
+		$conn = $this->getConnection();
+		$user = $_SESSION["curr_user"];
+		$createQuery = "INSERT INTO posts (post_bandname, post_genre, post_album, post_author) VALUES (?, ?, ?, ?);";
+		$q = $conn->prepare($createQuery);
+		$q->execute([$bandname, $genre, $album, $user]);
+	}
+
 	public function loginUser($username, $password) {
 		$conn = $this->getConnection();
 		$loginQuery = "SELECT * FROM users WHERE username = ? AND password = ?";

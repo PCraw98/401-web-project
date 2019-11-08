@@ -11,6 +11,10 @@
     </div>
     <div class="footer">
       <p>Parker Crawford. Fall 2019. Drink more water</p>
+      <?php
+        $current_login = $_SESSION["curr_user"]; 
+        echo "<p>current user: " . $current_login . "</p>";
+      ?>
     </div>
   </body>
 </html>

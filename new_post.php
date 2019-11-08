@@ -1,3 +1,6 @@
+<?php
+  session_start();
+?>
 <html>
   <head>
     <link rel="icon" type="image/png" href="favicon.png" sizes="16x16">
@@ -5,11 +8,8 @@
     <?php include_once( "navbar.html" ); ?>
   </head>
   <body>
-    <form id=forms>
-	note: these forms do nothing in this version of the site, but will later :)
-      <p>username:</p>
-      <input type="text" name="username">
-      
+    <form action="post_handler.php" id = "forms" method = "post">
+      <p>ENSURE YOU ARE LOGGED IN BEFORE POSTING</p>
       <p>band name:</p>
       <input type="text" name="bandname">
       
@@ -19,12 +19,14 @@
       <p>album name:</p>
       <input type="text" name="album">
       
-      <p>your rating:</p>
-      <input type="text" name="your_rating">
-      <input type="submit" value="Submit">
+      <input type="submit" name="create" value="create">
     </form>
     <div class="footer">
       <p>Parker Crawford. Fall 2019. Drink more water</p>
+      <?php
+        $current_login = $_SESSION["curr_user"]; 
+        echo "<p>current user: " . $current_login . "</p>";
+      ?>
     </div>
   </body>
 </html>
