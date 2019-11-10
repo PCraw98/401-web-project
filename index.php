@@ -24,7 +24,7 @@ $dao = new Dao();
           echo "
             <div id='post'>
               <div>author: " . htmlspecialchars($post['post_author']) . "</div>
-              <div>name:    " . htmlspecialchars($post['post_bandname']) . "</div>
+              <div>bandname:    " . htmlspecialchars($post['post_bandname']) . "</div>
               <div>genre:   " . htmlspecialchars($post['post_genre']) . "</div>
               <div>album:   " . htmlspecialchars($post['post_album']) . "</div>
             </div>";
