@@ -24,7 +24,7 @@ class Dao {
 		//$this->logger->LogInfo("saving a comment [{$comment}]");
 		$conn = $this->getConnection();
 		$registerQuery = "INSERT INTO users (username, password) VALUES (?, ?);";
-		$hash = password_hash($password, PASSWORD_DEFAULT);
+		$hash = PASSWORD_HASH($password, PASSWORD_DEFAULT);
 		$q = $conn->prepare($registerQuery);
 		$q->execute([$username, $hash]);
 	}
@@ -50,15 +50,19 @@ class Dao {
 
 	public function loginUser($username, $password) {
 		$conn = $this->getConnection();
-		//$sql = "SELECT * FROM users WHERE username = ? AND password = ?";
-		$sql = "SELECT username, password FROM users WHERE username = '". $username . "' ";
-		$results = $conn->query($sql, PDO::FETCH_ASSOC);
-		foreach($results as $res) {
-			$hash = $res['password'];
-			if (password_verify($password, $hash)) {
-				$valid = true;
-				return $valid;
-			}
+		//$loginQuery = "SELECT * FROM users WHERE username = ? AND password = ?";
+		$loginQuery = "SELECT * FROM users WHERE username = ?";
+		$q = $conn->prepare($loginQuery);
+		$q->execute([$username]);
+		$row = $q -> fetch_array(MYSQLI_ASSOC);
+		$hashed = $row["password"];
+		if(password_verify($password, $hashed)){
+			echo 'password worked';
+			$valid = $q->fetch();
+			return $valid;
+		} else {
+			echo 'password didnt work';
+			//return $valid;
 		}
 	}
 }
